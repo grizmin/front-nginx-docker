@@ -7,4 +7,4 @@ COPY *.py /
 
 EXPOSE 80/tcp 443/tcp
 
-CMD /start.py
+CMD python /start.py
