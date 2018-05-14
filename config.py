@@ -2,6 +2,8 @@
 
 import jinja2
 import os
+import glob
+import shutil
 
 convert = lambda src, dst, args: open(dst, "w").write(jinja2.Template(open(src).read()).render(**args))
 
@@ -27,7 +29,7 @@ if args["TLS"] and not all(os.path.exists(file_path) for file_path in args["TLS"
     print("Missing cert or key file, disabling TLS")
     args["TLS_ERROR"] = True
 
-# Build final configuration paths
+# Build final default configuration files
 nginx_configs={
     '/conf/default_server.conf': '/etc/nginx/conf.d/default_server.conf',
     '/conf/tls.conf': "/etc/nginx/tls.conf",
@@ -37,6 +39,13 @@ nginx_configs={
 
 for config_path in nginx_configs.items():
     convert(config_path[0], config_path[1], args)
+
+#generate proxy files
+for j2file in glob.glob('/conf/proxy/*.j2'):
+    convert(j2file, "/etc/nginx/conf.d/{}".format(os.path.splitext(j2file)[0]))
+#copy proxy conf files
+for file in glob.glob('/conf/proxy/*.conf'):
+    shutil.copy2(file, "/etc/nginx/conf.d/")
 
 if os.path.exists("/var/log/nginx.pid"):
     os.system("nginx -s reload")
