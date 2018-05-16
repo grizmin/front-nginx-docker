@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="759a5aaa-c065-4a96-a15e-1da65f73d01b" name="docker.int.grizmin.org" url="http://docker.int.grizmin.org">
+        <fileTransfer host="docker.int.grizmin.org" port="22" rootFolder="/srv/docker/front/" accessType="SFTP" authAgent="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

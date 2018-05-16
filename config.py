@@ -21,7 +21,7 @@ if 'TLS_FLAVOR' not in locals()['args']:
 args["TLS"] = {
     "cert": ("/certs/cert.pem", "/certs/key.pem"),
     "letsencrypt": ("/certs/letsencrypt/live/front/fullchain.pem",
-        "/certs/letsencrypt/live/front/privkey.pem"),
+    "/certs/letsencrypt/live/front/privkey.pem"),
     "notls": None
 }[args["TLS_FLAVOR"]]
 
@@ -42,7 +42,7 @@ for config_path in nginx_configs.items():
 
 #generate proxy files
 for j2file in glob.glob('/conf/proxy/*.j2'):
-    convert(j2file, "/etc/nginx/conf.d/{}".format(os.path.splitext(j2file)[0]))
+    convert(j2file, "/etc/nginx/conf.d/{}".format(os.path.splitext(os.path.basename(j2file))[0]))
 #copy proxy conf files
 for file in glob.glob('/conf/proxy/*.conf'):
     shutil.copy2(file, "/etc/nginx/conf.d/")
