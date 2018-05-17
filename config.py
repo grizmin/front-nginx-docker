@@ -35,7 +35,7 @@ if args["TLS"] and not all(os.path.exists(file_path) for file_path in args["TLS"
 
 # Build final default configuration files
 nginx_configs={
-    '/conf/default_server.conf': '/etc/nginx/conf.d/default_server.conf',
+    '/conf/default_server.conf': '/etc/nginx/conf.d/default_server.example',
     '/conf/tls.conf': "/etc/nginx/tls.conf",
     '/conf/proxy.conf': "/etc/nginx/proxy.conf",
     '/conf/nginx.conf': "/etc/nginx/nginx.conf"

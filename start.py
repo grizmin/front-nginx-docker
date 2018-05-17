@@ -14,7 +14,7 @@ def recursive_copy_files(source_path, destination_path, override=False):
     :param destination_path: destination directory
     :param override if True all files will be overridden otherwise skip if file exist
     :return: count of copied files
-        """
+    """
     files_count = 0
     if not os.path.exists(destination_path):
         os.mkdir(destination_path)
@@ -39,9 +39,12 @@ if os.path.exists("/var/log/nginx.pid"):
     os.remove("/var/log/nginx.pid")
 
 if 'TLS_FLAVOR' not in locals()['args']:
+    print("TLS_FLAVOR not set. Falling back to none.")
     os.environ['TLS_FLAVOR'] = 'notls'
 
+#start certbot listener
 if os.environ["TLS_FLAVOR"] in [ "letsencrypt" ]:
+    print("TLS_FLAVOR set to {}".format(os.environ["TLS_FLAVOR"]))
     subprocess.Popen(["/usr/bin/python","/letsencrypt.py"])
 
 subprocess.call(["/usr/bin/python","/config.py"])

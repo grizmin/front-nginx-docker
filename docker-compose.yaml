@@ -12,5 +12,6 @@ services:
     - "$BIND_ADDRESS4:443:443"
 
     volumes:
-      - "$ROOT/certs:/certs"
-      - "$ROOT/nginx:/etc/nginx"
+      - "$ROOT/certs:/certs:rw"
+      - "$ROOT/nginx:/etc/nginx:rw"
+      - "$ROOT/logs:/logs:rw"
