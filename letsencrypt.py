@@ -11,7 +11,7 @@ command = [
     "-d", os.environ["HOSTNAMES"],
     "-m", "{}@{}".format(os.environ["POSTMASTER"], os.environ["DOMAIN"]),
     "certonly", "--standalone",
-    "--cert-name", "front1",
+    "--cert-name", "front",
     "--preferred-challenges", "http", "--http-01-port", "8008",
     "--keep-until-expiring",
     "--rsa-key-size", "4096",
