@@ -55,5 +55,5 @@ for file in glob.glob('/etc/nginx/templates/*.conf'):
     if not os.path.exists("/etc/nginx/conf.d/{}".format(os.path.basename(file))) or args['REWRITE_DEFAULT_CONFIG']:
         shutil.copy2(file, "/etc/nginx/conf.d/")
 
-if os.path.exists("/var/log/nginx.pid"):
+if os.path.exists("/var/run/nginx.pid"):
     os.system("nginx -s reload")
