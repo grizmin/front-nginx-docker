@@ -18,6 +18,10 @@ with open("/etc/resolv.conf") as handle:
 if 'TLS_FLAVOR' not in locals()['args']:
     args['TLS_FLAVOR'] = 'notls'
 
+# Rewrite default templates if optins is not set
+if 'REWRITE_DEFAULT_CONFIG' not in locals()['args']:
+    args['REWRITE_DEFAULT_CONFIG'] = False
+
 args["TLS"] = {
     "cert": ("/certs/cert.pem", "/certs/key.pem"),
     "letsencrypt": ("/certs/letsencrypt/live/front/fullchain.pem",
@@ -41,11 +45,15 @@ for config_path in nginx_configs.items():
     convert(config_path[0], config_path[1], args)
 
 #generate proxy files
-for j2file in glob.glob('/conf/proxy/*.j2'):
-    convert(j2file, "/etc/nginx/conf.d/{}".format(os.path.splitext(os.path.basename(j2file))[0]))
+for j2file in glob.glob('/etc/nginx/templates/*.j2'):
+    cfname = "/etc/nginx/conf.d/{}".format(os.path.splitext(os.path.basename(j2file))[0])
+    if not os.path.exists(cfname) or args['REWRITE_DEFAULT_CONFIG']:
+        convert(j2file, cfname)
+
 #copy proxy conf files
-for file in glob.glob('/conf/proxy/*.conf'):
-    shutil.copy2(file, "/etc/nginx/conf.d/")
+for file in glob.glob('/etc/nginx/templates/*.conf'):
+    if not os.path.exists("/etc/nginx/conf.d/{}".format(os.path.basename(file))) or args['REWRITE_DEFAULT_CONFIG']:
+        shutil.copy2(file, "/etc/nginx/conf.d/")
 
 if os.path.exists("/var/log/nginx.pid"):
     os.system("nginx -s reload")
