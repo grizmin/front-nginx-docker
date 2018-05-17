@@ -6,7 +6,7 @@ services:
   front:
     image: grizmin/nginx-proxy:$VERSION
     restart: always
-    env_file: .env
+    env_file: config.env
     ports:
     - "$BIND_ADDRESS4:80:80"
     - "$BIND_ADDRESS4:443:443"
