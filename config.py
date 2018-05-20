@@ -4,6 +4,7 @@ import jinja2
 import os
 import glob
 import shutil
+from ast import literal_eval
 
 convert = lambda src, dst, args: open(dst, "w").write(jinja2.Template(open(src).read()).render(**args))
 
@@ -47,12 +48,12 @@ for config_path in nginx_configs.items():
 #generate proxy files
 for j2file in glob.glob('/etc/nginx/templates/*.j2'):
     cfname = "/etc/nginx/conf.d/{}".format(os.path.splitext(os.path.basename(j2file))[0])
-    if not os.path.exists(cfname) or args['REWRITE_DEFAULT_CONFIG']:
+    if not os.path.exists(cfname) or literal_eval(args['REWRITE_DEFAULT_CONFIG']):
         convert(j2file, cfname, args)
 
 #copy proxy conf files
 for file in glob.glob('/etc/nginx/templates/*.conf'):
-    if not os.path.exists("/etc/nginx/conf.d/{}".format(os.path.basename(file))) or args['REWRITE_DEFAULT_CONFIG']:
+    if not os.path.exists("/etc/nginx/conf.d/{}".format(os.path.basename(file))) or literal_eval(args['REWRITE_DEFAULT_CONFIG']):
         shutil.copy2(file, "/etc/nginx/conf.d/")
 
 if os.path.exists("/var/run/nginx.pid"):
