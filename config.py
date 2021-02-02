@@ -49,6 +49,7 @@ for config_path in nginx_configs.items():
 for j2file in glob.glob('/etc/nginx/templates/*.j2'):
     cfname = "/etc/nginx/conf.d/{}".format(os.path.splitext(os.path.basename(j2file))[0])
     if not os.path.exists(cfname) or literal_eval(args['REWRITE_DEFAULT_CONFIG']):
+        print("Rendering {} to {}".format(j2file, cfname))
         convert(j2file, cfname, args)
 
 #copy proxy conf files

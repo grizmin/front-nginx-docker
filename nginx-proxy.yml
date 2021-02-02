@@ -1,0 +1,18 @@
+---
+version: '3'
+
+services:
+
+  front:
+    image: grizmin/nginx-proxy:latest
+    restart: always
+    env_file:
+    - nginx-proxy.env
+    ports:
+    - "$BIND_ADDRESS4:80:80"
+    - "$BIND_ADDRESS4:443:443"
+
+    volumes:
+      - "$ROOT/certs:/certs:rw"
+      - "$ROOT/nginx:/etc/nginx:rw"
+      - "$ROOT/logs:/logs:rw"

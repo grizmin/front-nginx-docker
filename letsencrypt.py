@@ -19,6 +19,9 @@ command = [
     "--post-hook", "/config.py"
 ]
 
+#debug purposes in devel
+print(" ".join(command))
+
 # Wait for nginx to start
 time.sleep(5)
 
